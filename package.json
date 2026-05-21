@@ -1,0 +1,13 @@
+{
+  "name": "nocatee-paver-sealing-site",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "node scripts/build-check.js",
+    "start": "vercel dev"
+  },
+  "devDependencies": {
+    "vercel": "latest"
+  }
+}
