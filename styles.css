@@ -253,6 +253,16 @@ h3 {
 
 .hero-card {
   padding: 28px;
+  overflow: hidden;
+}
+
+.hero-image {
+  display: block;
+  width: calc(100% + 56px);
+  height: clamp(220px, 28vw, 360px);
+  margin: -28px -28px 24px;
+  object-fit: cover;
+  object-position: center center;
 }
 
 .hero-card ul {
