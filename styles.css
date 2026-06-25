@@ -140,9 +140,7 @@ a {
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.65fr);
-  gap: 32px;
-  align-items: center;
+  gap: clamp(32px, 5vw, 52px);
   padding: clamp(54px, 8vw, 110px) clamp(18px, 5vw, 72px);
   background:
     radial-gradient(circle at top right, rgba(198, 154, 70, 0.22), transparent 36%),
@@ -242,7 +240,6 @@ h3 {
   font-size: 0.9rem;
 }
 
-.hero-card,
 .card,
 .cta-panel {
   background: var(--panel);
@@ -251,37 +248,27 @@ h3 {
   box-shadow: var(--shadow);
 }
 
-.hero-card {
-  padding: 28px;
+.hero-media {
+  width: 100%;
   overflow: hidden;
+  border-radius: 30px;
+  box-shadow: var(--shadow);
 }
 
 .hero-image {
   display: block;
-  width: calc(100% + 56px);
-  height: clamp(220px, 28vw, 360px);
-  margin: -28px -28px 24px;
+  width: 100%;
+  height: clamp(360px, 42vw, 520px);
   object-fit: cover;
   object-position: center center;
 }
 
-.hero-card ul {
-  margin: 0 0 18px;
-  padding-left: 20px;
-}
-
-.hero-card a,
 .service-card a {
   color: var(--green-dark);
   font-weight: 850;
   text-decoration: underline;
   text-decoration-color: rgba(36, 86, 61, 0.25);
   text-underline-offset: 4px;
-}
-
-.price-note {
-  color: var(--muted);
-  font-size: 0.95rem;
 }
 
 .section {
@@ -401,7 +388,6 @@ h3 {
     min-width: 220px;
   }
 
-  .hero,
   .split,
   .cards.three,
   .cards.two {
@@ -410,5 +396,9 @@ h3 {
 
   h1 {
     font-size: clamp(2.45rem, 13vw, 4.2rem);
+  }
+
+  .hero-image {
+    height: clamp(240px, 58vw, 320px);
   }
 }
