@@ -139,16 +139,20 @@ a {
 }
 
 .hero {
-  display: grid;
-  gap: clamp(32px, 5vw, 52px);
-  padding: clamp(54px, 8vw, 110px) clamp(18px, 5vw, 72px);
-  background:
-    radial-gradient(circle at top right, rgba(198, 154, 70, 0.22), transparent 36%),
-    linear-gradient(135deg, #f6f2ea 0%, #efe5d4 100%);
+  padding: clamp(18px, 3vw, 34px) clamp(18px, 5vw, 72px);
+  background: #5f4a34;
 }
 
 .hero-copy {
-  max-width: 860px;
+  position: relative;
+  z-index: 2;
+  max-width: 780px;
+  padding: clamp(36px, 6vw, 80px) 0;
+  color: #fff;
+}
+
+.hero .eyebrow {
+  color: #f2cf7e;
 }
 
 .eyebrow {
@@ -187,9 +191,9 @@ h3 {
 }
 
 .hero-text {
-  max-width: 760px;
+  max-width: 680px;
   font-size: clamp(1.05rem, 2vw, 1.24rem);
-  color: var(--muted);
+  color: rgba(255, 255, 255, 0.86);
 }
 
 .hero-actions {
@@ -249,18 +253,50 @@ h3 {
 }
 
 .hero-media {
+  position: relative;
+  display: flex;
+  align-items: center;
   width: 100%;
+  min-height: clamp(560px, 48vw, 680px);
   overflow: hidden;
   border-radius: 30px;
   box-shadow: var(--shadow);
+  padding: 0 clamp(22px, 6vw, 78px);
+  isolation: isolate;
+}
+
+.hero-media::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(90deg, rgba(12, 20, 16, 0.84) 0%, rgba(12, 20, 16, 0.68) 36%, rgba(12, 20, 16, 0.24) 68%, rgba(12, 20, 16, 0.06) 100%),
+    linear-gradient(180deg, rgba(12, 20, 16, 0.16) 0%, rgba(12, 20, 16, 0.08) 46%, rgba(12, 20, 16, 0.2) 100%);
 }
 
 .hero-image {
-  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
   width: 100%;
-  height: clamp(360px, 42vw, 520px);
+  height: 100%;
   object-fit: cover;
-  object-position: center center;
+  object-position: center 58%;
+}
+
+.hero .button.primary {
+  background: var(--gold);
+  color: #17231d;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.26);
+}
+
+.hero .button.secondary,
+.hero .trust-strip span {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border-color: rgba(255, 255, 255, 0.32);
+  backdrop-filter: blur(8px);
 }
 
 .service-card a {
@@ -398,7 +434,27 @@ h3 {
     font-size: clamp(2.45rem, 13vw, 4.2rem);
   }
 
-  .hero-image {
-    height: clamp(240px, 58vw, 320px);
+  .hero {
+    padding: 14px;
+  }
+
+  .hero-media {
+    align-items: flex-end;
+    min-height: clamp(420px, 92vw, 520px);
+    padding: clamp(24px, 7vw, 42px);
+  }
+
+  .hero-media::before {
+    background:
+      linear-gradient(90deg, rgba(12, 20, 16, 0.74) 0%, rgba(12, 20, 16, 0.56) 58%, rgba(12, 20, 16, 0.22) 100%),
+      linear-gradient(180deg, rgba(12, 20, 16, 0.14) 0%, rgba(12, 20, 16, 0.44) 48%, rgba(12, 20, 16, 0.76) 100%);
+  }
+
+  .hero-copy {
+    padding: 0;
+  }
+
+  .hero-text {
+    font-size: 1rem;
   }
 }
