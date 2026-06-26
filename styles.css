@@ -140,7 +140,7 @@ a {
 
 .hero {
   padding: clamp(18px, 3vw, 34px) clamp(18px, 5vw, 72px);
-  background: #5f4a34;
+  background: var(--bg);
 }
 
 .hero-copy {
