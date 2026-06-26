@@ -1,14 +1,14 @@
 :root {
-  --bg: #f6f2ea;
-  --ink: #17231d;
-  --muted: #5d6b63;
+  --bg: #f8f7f3;
+  --ink: #142338;
+  --muted: #607083;
   --panel: #ffffff;
-  --panel-soft: #ebe2d3;
-  --green: #24563d;
-  --green-dark: #173c2b;
-  --gold: #c69a46;
-  --line: rgba(23, 35, 29, 0.14);
-  --shadow: 0 24px 70px rgba(23, 35, 29, 0.14);
+  --panel-soft: #e9ecef;
+  --green: #005ea8;
+  --green-dark: #003f73;
+  --gold: #d7dde3;
+  --line: rgba(20, 35, 56, 0.14);
+  --shadow: 0 24px 70px rgba(20, 35, 56, 0.14);
 }
 
 * {
@@ -39,7 +39,7 @@ a {
   gap: 24px;
   padding: 22px clamp(18px, 5vw, 72px);
   border-bottom: 1px solid var(--line);
-  background: rgba(246, 242, 234, 0.92);
+  background: rgba(248, 247, 243, 0.92);
   backdrop-filter: blur(14px);
   position: sticky;
   top: 0;
@@ -213,7 +213,7 @@ h3 {
 .button.primary {
   color: #fff;
   background: var(--green);
-  box-shadow: 0 16px 32px rgba(36, 86, 61, 0.22);
+  box-shadow: 0 16px 32px rgba(0, 94, 168, 0.22);
 }
 
 .button.secondary {
@@ -313,7 +313,7 @@ h3 {
 
 .hero .button.primary {
   background: var(--gold);
-  color: #17231d;
+  color: var(--ink);
   box-shadow: 0 16px 32px rgba(0, 0, 0, 0.26);
 }
 
@@ -329,7 +329,7 @@ h3 {
   color: var(--green-dark);
   font-weight: 850;
   text-decoration: underline;
-  text-decoration-color: rgba(36, 86, 61, 0.25);
+  text-decoration-color: rgba(0, 94, 168, 0.25);
   text-underline-offset: 4px;
 }
 
@@ -386,7 +386,7 @@ h3 {
 }
 
 .split .eyebrow {
-  color: #d9b766;
+  color: var(--gold);
 }
 
 .split p {
