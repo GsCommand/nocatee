@@ -337,6 +337,18 @@ h3 {
   padding: clamp(56px, 8vw, 96px) clamp(18px, 5vw, 72px);
 }
 
+.gallery-embed {
+  display: flex;
+  justify-content: center;
+  margin: clamp(28px, 5vw, 54px) 0;
+  padding-top: clamp(28px, 5vw, 54px);
+  padding-bottom: clamp(28px, 5vw, 54px);
+}
+
+.gallery-embed > div {
+  width: min(100%, 1180px);
+}
+
 .section-heading {
   max-width: 820px;
   margin-bottom: 28px;
