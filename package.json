@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vercel dev",
-    "build": "mkdir -p public && cp *.html public/ && cp styles.css public/ && cp robots.txt public/ && cp *.webp public/",
+    "build": "mkdir -p public && cp *.html public/ && cp styles.css public/ && cp robots.txt public/ && cp *.webp public/ && cp *.png public/",
     "start": "vercel dev"
   },
   "devDependencies": {
