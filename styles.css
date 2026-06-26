@@ -277,6 +277,10 @@ h3 {
     linear-gradient(180deg, rgba(12, 20, 16, 0.16) 0%, rgba(12, 20, 16, 0.08) 46%, rgba(12, 20, 16, 0.2) 100%);
 }
 
+.hero-media--no-overlay::before {
+  content: none;
+}
+
 .hero-image {
   position: absolute;
   inset: 0;
