@@ -431,6 +431,16 @@ h3 {
   padding: clamp(28px, 5vw, 54px);
 }
 
+.social-icons {
+  display: flex;
+  justify-content: center;
+  padding: 0 clamp(18px, 5vw, 72px) 22px;
+}
+
+.social-icons > div {
+  margin-inline: auto;
+}
+
 .site-footer {
   padding: 26px clamp(18px, 5vw, 72px);
   color: var(--muted);
