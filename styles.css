@@ -6,6 +6,7 @@
   --panel-soft: #e9ecef;
   --green: #005ea8;
   --green-dark: #003f73;
+  --android-green: #3ddc84;
   --gold: #d7dde3;
   --line: rgba(20, 35, 56, 0.14);
   --shadow: 0 24px 70px rgba(20, 35, 56, 0.14);
@@ -574,7 +575,8 @@ h3 {
 
 .nav-call-text:hover,
 .nav-call-text:focus-visible {
-  background: var(--green-dark);
+  background: var(--android-green);
+  color: var(--ink) !important;
   transform: translateY(-1px);
 }
 
