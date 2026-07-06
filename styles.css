@@ -499,12 +499,13 @@ h3 {
 
   .nav {
     width: 100%;
-    overflow-x: auto;
-    padding-bottom: 4px;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 8px;
-    font-size: 0.78rem;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    overflow: visible;
+    padding-bottom: 0;
+    align-items: stretch;
+    font-size: 0.9rem;
     scrollbar-width: none;
   }
 
@@ -513,6 +514,13 @@ h3 {
   }
 
   .nav-dropbtn {
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 10px;
+    border-radius: 999px;
+    background: var(--panel);
+    color: var(--green-dark);
+    font-weight: 800;
     white-space: nowrap;
   }
 
@@ -521,17 +529,37 @@ h3 {
   }
 
   .nav-cta {
-    flex: 0 0 auto;
-    padding: 7px 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 50px;
+    padding: 12px 10px;
+    font-weight: 800;
+    text-align: center;
     white-space: nowrap;
   }
 
   .nav-call-text {
     min-width: auto;
+    order: 1;
+  }
+
+  .nav > .nav-cta:not(.nav-call-text) {
+    order: 2;
   }
 
   .nav-dropdown {
-    position: static;
+    position: relative;
+    width: 100%;
+  }
+
+  .nav-dropdown:nth-of-type(1) {
+    order: 3;
+  }
+
+  .nav-dropdown:nth-of-type(2) {
+    order: 4;
   }
 
   .nav-menu {
