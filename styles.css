@@ -349,6 +349,11 @@ h3 {
   width: min(100%, 1180px);
 }
 
+.cert-section {
+  padding-top: clamp(34px, 6vw, 72px);
+  padding-bottom: 0;
+}
+
 .cert-container {
   width: min(100%, 1180px);
   margin-inline: auto;
