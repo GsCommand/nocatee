@@ -1007,3 +1007,37 @@ h3 {
     grid-template-columns: 1fr;
   }
 }
+
+.hspav-calculator-page {
+  width: 100%;
+  padding: 48px 20px 72px;
+}
+
+.hspav-calculator-shell {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.hspav-page-intro {
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.hspav-page-intro h1 {
+  margin: 0 0 12px;
+  color: var(--green-dark);
+  font-size: clamp(2.1rem, 5vw, 3.6rem);
+  line-height: 0.95;
+}
+
+.hspav-page-intro p:not(.eyebrow),
+.hspav-disclaimer {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.hspav-disclaimer {
+  margin: 22px 0 0;
+}
