@@ -140,6 +140,29 @@ a {
   background: var(--bg);
 }
 
+.hero--house-wash {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: clamp(24px, 5vw, 64px);
+  width: 100%;
+  min-height: 650px;
+  overflow: hidden;
+  background-image: url("/nocatee-house-wash.webp");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.hero--house-wash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(90deg, rgba(8, 20, 29, 0.76) 0%, rgba(8, 20, 29, 0.5) 48%, rgba(8, 20, 29, 0.28) 100%);
+}
+
 .hero-copy {
   position: relative;
   z-index: 2;
@@ -578,6 +601,16 @@ h3 {
 
   .hero {
     padding: 14px;
+  }
+
+  .hero--house-wash {
+    min-height: 520px;
+    padding: clamp(24px, 7vw, 42px);
+    background-position: 30% center;
+  }
+
+  .hero--house-wash::before {
+    background: linear-gradient(180deg, rgba(8, 20, 29, 0.28) 0%, rgba(8, 20, 29, 0.48) 42%, rgba(8, 20, 29, 0.82) 100%);
   }
 
   .hero-media {
