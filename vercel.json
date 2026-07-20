@@ -25,23 +25,5 @@
       "source": "/robots.txt",
       "destination": "/robots.txt"
     }
-  ],
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "nocateepaversealing.com"
-        }
-      ],
-      "destination": "https://www.nocateepaversealing.com/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/:path*.html",
-      "destination": "/:path*",
-      "permanent": true
-    }
   ]
 }
