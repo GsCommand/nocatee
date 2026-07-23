@@ -505,12 +505,24 @@ h3 {
 
 .site-footer {
   padding: 26px clamp(18px, 5vw, 72px);
-  color: var(--muted);
+  color: var(--green);
   border-top: 1px solid var(--line);
+  text-align: center;
+}
+
+.site-footer nav {
+  margin: 0 auto 8px;
+  text-align: center;
+}
+
+.site-footer a,
+.site-footer p {
+  color: var(--green);
 }
 
 .site-footer p {
   margin: 0;
+  text-align: center;
 }
 
 @media (max-width: 820px) {
