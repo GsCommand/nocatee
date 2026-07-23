@@ -1,0 +1,53 @@
+name: Apply FAQ order
+
+on:
+  push:
+    branches:
+      - faq-above-social-icons
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: faq-above-social-icons
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Move FAQ sections above social icon widgets
+        run: python scripts/move_faq_above_social.py
+      - name: Validate placement
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          failures=[]
+          for p in Path('.').glob('*.html'):
+              s=p.read_text()
+              if 'class="social-icons"' not in s or '>Questions</p>' not in s:
+                  continue
+              social=s.find('class="social-icons"')
+              q=s.find('>Questions</p>', social)
+              widget=s.find('elfsight-app-f7229490-8c31-483c-aa82-d3a3b751a7c7', social)
+              if q < 0 or widget < 0 or q > widget:
+                  failures.append(p.name)
+          if failures:
+              raise SystemExit('FAQ placement failed: ' + ', '.join(failures))
+          PY
+      - name: Commit generated HTML changes
+        run: |
+          if git diff --quiet; then
+            echo "No HTML changes required"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add '*.html'
+          git commit -m "Move questions directly above social icon widget on every page"
+          git push origin faq-above-social-icons
