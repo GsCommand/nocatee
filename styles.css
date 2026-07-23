@@ -1074,3 +1074,29 @@ h3 {
 .hspav-disclaimer {
   margin: 22px 0 0;
 }
+
+/* Service-page FAQs sit as the last content section before trust badges. */
+.faq-section .faqs {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.faq-section .faq-item {
+  padding: 0 20px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--panel);
+}
+
+.faq-section .faq-item summary {
+  padding: 18px 34px 18px 0;
+  color: var(--ink);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.faq-section .faq-item p {
+  margin: 0;
+  padding-bottom: 18px;
+}
