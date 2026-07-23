@@ -84,14 +84,13 @@
       }
 
       .house-washing-page .roofline-main {
-        display: grid;
-        grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-        align-items: start;
-        gap: clamp(32px, 4vw, 48px);
+        display: flow-root;
       }
 
       .house-washing-page .roofline-image {
-        margin: 0;
+        float: right;
+        width: min(34%, 320px);
+        margin: 0 0 18px 36px;
         overflow: hidden;
         border: 1px solid var(--line);
         border-radius: 28px;
@@ -127,7 +126,6 @@
 
       @media (max-width: 820px) {
         .house-washing-page .house-wash-overview,
-        .house-washing-page .roofline-main,
         .house-washing-page .roofline-features {
           grid-template-columns: 1fr;
         }
@@ -135,9 +133,14 @@
         .house-washing-page .house-wash-overview {
           gap: 30px;
         }
+      }
 
-        .house-washing-page .roofline-main {
-          gap: 30px;
+      @media (max-width: 767px) {
+        .house-washing-page .roofline-image {
+          float: none;
+          width: 100%;
+          max-width: none;
+          margin: 0 0 24px;
         }
       }
     </style>
@@ -175,18 +178,18 @@
       </section>
       <section class="section roofline-section">
         <div class="roofline-content">
+          <p class="eyebrow">Complete Exterior Care</p>
+          <h2>Why Soffits and Exterior Gutters Matter</h2>
           <div class="roofline-main">
             <div class="roofline-copy">
-              <p class="eyebrow">Complete Exterior Care</p>
-              <h2>Why Soffits and Exterior Gutters Matter</h2>
+              <figure class="roofline-image">
+                <img src="/housewash-nocatee-gutter.webp" alt="Diagram showing the gutter, fascia and soffit on a Nocatee home" width="800" height="600" loading="lazy" decoding="async" />
+              </figure>
               <p>Soffits are the underside surfaces beneath a roof overhang, and they are easy to miss during basic exterior cleaning. In Nocatee’s humid climate, these sheltered surfaces can collect mildew, algae, pollen, cobwebs, insect residue and moisture-related staining. When buildup remains along the eaves, the entire roofline can look neglected even after the walls have been cleaned. Thoughtful soffit cleaning and fascia cleaning give exterior house cleaning a more complete, consistent finish.</p>
               <p>Many soffits contain ventilation openings, so they should be approached carefully with controlled application and rinsing. Residential soft washing is intended to clean visible exterior surfaces; it does not repair leaks, correct attic mold or ventilation problems, or resolve structural damage. If a stain is connected to a roof leak or another continuing moisture source, the discoloration may return until that underlying source is repaired. Aging or failing paint may also limit the result.</p>
               <p>The outside faces of gutters need attention for a different reason. Rainwater, airborne dirt and organic growth can leave algae, runoff marks, oxidation and dark vertical striping on the visible metal. Exterior gutter cleaning in a normal Nocatee house washing service means washing those outside faces. It is different from clearing leaves, pine needles and debris from inside the gutter channels, which is a separate type of service.</p>
               <p>A standard wash can improve many surface-level marks, but oxidation and deeply bonded “tiger striping” may call for a separate gutter-brightening treatment. Even specialty treatment cannot guarantee complete removal of oxidation, paint failure or permanent discoloration. HydroSeal evaluates the surface first and recommends a suitable approach rather than using excessive pressure. That same care matters for stucco house washing and other delicate finishes. Soft washing Nocatee homes from the walls through the roofline helps create a cleaner appearance while respecting each material’s condition.</p>
             </div>
-            <figure class="roofline-image">
-              <img src="/housewash-nocatee-gutter.webp" alt="Diagram showing the gutter, fascia and soffit on a Nocatee home" width="800" height="600" loading="lazy" decoding="async" />
-            </figure>
           </div>
           <div class="roofline-features">
             <article class="roofline-feature">
