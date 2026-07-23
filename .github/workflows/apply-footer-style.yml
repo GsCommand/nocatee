@@ -1,0 +1,51 @@
+name: Apply footer style
+
+on:
+  push:
+    branches:
+      - footer-color-center
+
+permissions:
+  contents: write
+
+jobs:
+  update-footer:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: footer-color-center
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Update footer styles
+        run: python scripts/update_footer_style.py
+      - name: Validate footer styles
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          css = Path('styles.css').read_text()
+          required = [
+              '.site-footer {',
+              'color: var(--green);',
+              'text-align: center;',
+              '.site-footer nav {',
+              '.site-footer a,',
+          ]
+          missing = [item for item in required if item not in css]
+          if missing:
+              raise SystemExit('Missing footer rules: ' + ', '.join(missing))
+          PY
+      - name: Commit generated CSS change
+        run: |
+          if git diff --quiet; then
+            echo "No CSS changes required"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add styles.css
+          git commit -m "Center footer text and match nav CTA color"
+          git push origin footer-color-center
