@@ -3,7 +3,7 @@ name: Apply FAQ order
 on:
   push:
     branches:
-      - faq-above-social-icons
+      - faq-order-run
 
 permissions:
   contents: write
@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: faq-above-social-icons
+          ref: ${{ github.ref_name }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
@@ -26,7 +26,6 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
-          import re
           failures=[]
           for p in Path('.').glob('*.html'):
               s=p.read_text()
@@ -50,4 +49,4 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add '*.html'
           git commit -m "Move questions directly above social icon widget on every page"
-          git push origin faq-above-social-icons
+          git push origin HEAD:${{ github.ref_name }}
