@@ -4,8 +4,8 @@
   document.head.appendChild(layoutStyles);
 
   if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
-    var homePricingSection = document.querySelector('.pricing-section');
-    if (homePricingSection) homePricingSection.remove();
+    var homePricingLabel = document.querySelector('.pricing-section > .section-heading > .eyebrow');
+    if (homePricingLabel && homePricingLabel.textContent.trim() === 'Pricing') homePricingLabel.remove();
   }
 
   var calculatorUrl = '/paver-sealing-cost-calculator';
