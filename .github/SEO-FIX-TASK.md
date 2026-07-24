@@ -1,1 +1,0 @@
-Implement every item in `/SEO-FIX-IMPLEMENTATION.md` now. Make the actual production-file changes, validate them, open a pull request, and ensure only relevant source/config files plus this task file are changed. Do not leave this as documentation-only work.
