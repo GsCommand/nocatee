@@ -1,0 +1,51 @@
+name: Apply sitewide SEO fixes
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.seo-fix-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply fixes
+        run: python scripts/apply_sitewide_seo_fixes.py
+      - name: Validate critical fixes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          files = list(Path('.').glob('*.html'))
+          bad = []
+          for p in files:
+              t = p.read_text(encoding='utf-8')
+              if 'outletdirect229@gmail.com' in t:
+                  bad.append(f'{p}: personal Gmail remains')
+              if '.html"' in t:
+                  bad.append(f'{p}: .html internal link remains')
+              if 'https://www.nocateepaversealing.com' in t:
+                  bad.append(f'{p}: www canonical remains')
+              if t.count('https://elfsightcdn.com/platform.js') > 1:
+                  bad.append(f'{p}: duplicate Elfsight platform scripts')
+          if bad:
+              raise SystemExit('\n'.join(bad))
+          PY
+      - name: Commit fixes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html nocatee-*.html paver-sealing-cost-calculator.html sitemap.xml
+          git commit -m "Apply sitewide SEO and conversion fixes"
+          git push origin main
