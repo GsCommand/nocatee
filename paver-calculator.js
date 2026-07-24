@@ -1,4 +1,7 @@
 (function () {
+  var layoutStyles = document.createElement('style');
+  layoutStyles.textContent = '.pricing-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.9fr);gap:clamp(24px,4vw,48px);align-items:start}.pricing-panel{min-width:0}.pricing-calculator{position:sticky;top:130px}.pricing-section .section-heading{max-width:900px}.pricing-section .price-table{min-width:0}.pricing-calculator-note{margin-top:18px;color:var(--muted);font-size:.95rem}@media(max-width:900px){.pricing-grid{grid-template-columns:1fr}.pricing-calculator{position:static}}';
+  document.head.appendChild(layoutStyles);
   var RATE_PAVER = 1.5;
   var RATE_TRAVERTINE = 1.6;
   var STRIP_RATE = 1.5;
