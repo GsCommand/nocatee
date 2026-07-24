@@ -1,0 +1,30 @@
+name: Restore driveway FAQ schema
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/restore-driveway-faq-schema.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/restore_driveway_faq_schema.py
+      - run: |
+          grep -q 'FAQPage' nocatee-driveway-paver-sealing.html
+          rm -f scripts/restore_driveway_faq_schema.py
+          rm -f .github/workflows/restore-driveway-faq-schema.yml
+      - run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'Restore driveway FAQ schema in full page graph'
+          git push origin main
