@@ -9,9 +9,9 @@
   }
 
   var calculatorUrl = '/paver-sealing-cost-calculator';
-  document.querySelectorAll('.cta-panel a').forEach(function (link) {
-    var label = link.textContent.trim().toLowerCase();
-    if (label.indexOf('quote') !== -1) link.setAttribute('href', calculatorUrl);
+  document.querySelectorAll('a').forEach(function (link) {
+    var label = link.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+    if (label.indexOf('request a quote') !== -1) link.setAttribute('href', calculatorUrl);
   });
 
   document.querySelectorAll('.gallery-embed .section-heading').forEach(function (heading) {
