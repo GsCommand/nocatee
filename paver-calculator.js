@@ -1,11 +1,35 @@
 (function () {
   var layoutStyles = document.createElement('style');
-  layoutStyles.textContent = '.pricing-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.9fr);gap:clamp(24px,4vw,48px);align-items:start}.pricing-panel{min-width:0}.pricing-calculator{position:sticky;top:130px}.pricing-section>.section-heading{max-width:900px;margin-left:auto;margin-right:auto;text-align:center}.pricing-section>.section-heading p{margin-left:auto;margin-right:auto}.pricing-section .price-table{min-width:0}.pricing-calculator-note{margin-top:18px;color:var(--muted);font-size:.95rem}@media(max-width:900px){.pricing-grid{grid-template-columns:1fr}.pricing-calculator{position:static}}';
+  layoutStyles.textContent = '.pricing-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.9fr);gap:clamp(24px,4vw,48px);align-items:start}.pricing-panel{min-width:0}.pricing-calculator{position:sticky;top:130px}.pricing-section>.section-heading{max-width:900px;margin-left:auto;margin-right:auto;text-align:center}.pricing-section>.section-heading p{margin-left:auto;margin-right:auto}.pricing-section .price-table{min-width:0}.pricing-calculator-note{margin-top:18px;color:var(--muted);font-size:.95rem}.home-intro-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(320px,.92fr);gap:clamp(28px,5vw,64px);align-items:start}.home-intro-image{width:100%;height:100%;max-height:430px;object-fit:cover;border-radius:18px;display:block;box-shadow:0 18px 45px rgba(0,0,0,.12)}@media(max-width:900px){.pricing-grid{grid-template-columns:1fr}.pricing-calculator{position:static}.home-intro-grid{grid-template-columns:1fr}.home-intro-image{max-height:none}}';
   document.head.appendChild(layoutStyles);
 
   if (window.location.pathname === '/' || window.location.pathname === '/index.html') {
     var homePricingLabel = document.querySelector('.pricing-section > .section-heading > .eyebrow');
     if (homePricingLabel && homePricingLabel.textContent.trim() === 'Pricing') homePricingLabel.remove();
+
+    var introHeading = Array.prototype.find.call(document.querySelectorAll('main > .section .section-heading h2'), function (heading) {
+      return heading.textContent.trim() === 'Paver cleaning and sealing built for Nocatee conditions';
+    });
+    if (introHeading) {
+      var introSection = introHeading.closest('.section');
+      var introParagraphs = Array.prototype.slice.call(introSection.children).filter(function (child) { return child.tagName === 'P'; });
+      if (introParagraphs.length) {
+        var introGrid = document.createElement('div');
+        introGrid.className = 'home-intro-grid';
+        var introCopy = document.createElement('div');
+        introCopy.className = 'home-intro-copy';
+        introParagraphs.forEach(function (paragraph) { introCopy.appendChild(paragraph); });
+        var introImage = document.createElement('img');
+        introImage.className = 'home-intro-image';
+        introImage.src = '/nocatee-driveway-resealed-pavers.jpg';
+        introImage.alt = 'Resealed paver driveway in Nocatee, Florida';
+        introImage.loading = 'lazy';
+        introImage.decoding = 'async';
+        introGrid.appendChild(introCopy);
+        introGrid.appendChild(introImage);
+        introSection.appendChild(introGrid);
+      }
+    }
   }
 
   var calculatorUrl = '/paver-sealing-cost-calculator';
