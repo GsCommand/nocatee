@@ -18,6 +18,10 @@
   ],
   "rewrites": [
     {
+      "source": "/paver-calculator.js",
+      "destination": "/paver-calculator-loader.js"
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/sitemap.xml"
     },
