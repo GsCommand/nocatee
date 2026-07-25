@@ -14,6 +14,9 @@
       var introSection = introHeading.closest('.section');
       var introParagraphs = Array.prototype.slice.call(introSection.children).filter(function (child) { return child.tagName === 'P'; });
       if (introParagraphs.length) {
+        var resealingParagraph = document.createElement('p');
+        resealingParagraph.innerHTML = '<strong>Paver resealing in Nocatee</strong> is recommended when an older coating begins to look faded, uneven, dry or worn from Florida sun, vehicle traffic, reclaimed irrigation and heavy rain. Our paver resealing process can include surface cleaning, evaluation of the existing sealer, targeted stain treatment, joint-sand replacement and application of a compatible breathable sealer. Proper driveway paver resealing helps refresh color, stabilize sand joints and protect concrete or brick pavers without sealing over trapped moisture, failed coatings or unresolved staining.';
+        introParagraphs.push(resealingParagraph);
         var introGrid = document.createElement('div');
         introGrid.className = 'home-intro-grid';
         var introCopy = document.createElement('div');
