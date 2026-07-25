@@ -1,6 +1,18 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/nocatee-house-washing",
+      "destination": "https://hydrosealpavers.com/house-washing",
+      "permanent": true
+    },
+    {
+      "source": "/nocatee-roof-washing",
+      "destination": "https://hydrosealpavers.com/roof-washing",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)",
