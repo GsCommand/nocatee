@@ -1,0 +1,138 @@
+name: Clean Nocatee site boundaries
+
+on:
+  push:
+    paths:
+      - '.github/workflows/cleanup-site-boundaries.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Remove dead washing links and tighten joint-sand wording
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+
+          DEAD = ('/nocatee-house-washing', '/nocatee-roof-washing')
+
+          for p in Path('.').glob('*.html'):
+              s = p.read_text()
+
+              # Remove the obsolete Pressure Washing dropdown anywhere it still points only
+              # to the retired Nocatee house/roof URLs.
+              s = re.sub(
+                  r'\s*<div class="nav-dropdown">\s*<button[^>]*>\s*Pressure Washing\s*</button>\s*<div class="nav-menu"[^>]*>[\s\S]*?(?:nocatee-house-washing|nocatee-roof-washing)[\s\S]*?</div>\s*</div>',
+                  '', s, flags=re.I
+              )
+
+              # Remove a known body cross-link sentence now that the house-washing URL is retired.
+              s = re.sub(
+                  r'\s*,?\s*and irrigation residue on exterior walls may also be addressed through\s*<a[^>]*href=["\']/nocatee-house-washing["\'][^>]*>[\s\S]*?</a>',
+                  '', s, flags=re.I
+              )
+
+              # Remove any remaining anchors to the retired URLs.
+              s = re.sub(
+                  r'<a\b[^>]*href=["\']/(?:nocatee-house-washing|nocatee-roof-washing)["\'][^>]*>[\s\S]*?</a>',
+                  '', s, flags=re.I
+              )
+
+              # Hard guarantee: no retired URL string survives in production HTML.
+              for dead in DEAD:
+                  s = s.replace(dead, '')
+
+              # Clean separators that can be stranded when an old footer link is removed.
+              s = re.sub(r'(?:\s*&middot;\s*){2,}', ' &middot; ', s)
+              s = re.sub(r'(<nav\b[^>]*>)\s*&middot;\s*', r'\1', s)
+              s = re.sub(r'\s*&middot;\s*(</nav>)', r'\1', s)
+
+              p.write_text(s)
+
+          # Calculator: make header/footer consistent with the live paver-only Nocatee site.
+          p = Path('paver-sealing-cost-calculator.html')
+          s = p.read_text()
+          footer = '''<footer class="site-footer">
+      <nav aria-label="Footer navigation">
+        <a href="/nocatee-driveway-paver-sealing">Driveway Paver Sealing</a> &middot;
+        <a href="/nocatee-pool-deck-paver-sealing">Pool Deck Sealing</a> &middot;
+        <a href="/nocatee-travertine-sealing">Travertine Sealing</a> &middot;
+        <a href="/nocatee-paver-joint-sand">Joint Sand</a> &middot;
+        <a href="/paver-sealing-cost-calculator">Cost Calculator</a> &middot;
+        <a href="/warranty">Warranty</a> &middot;
+        <a href="/privacy-policy">Privacy</a>
+      </nav>
+      <p>&copy; 2026 HydroSeal &middot; Nocatee Paver Sealing &middot; Serving Nocatee, Ponte Vedra &amp; St. Johns County, FL</p>
+    </footer>'''
+          s, n = re.subn(r'<footer class="site-footer">[\s\S]*?</footer>', footer, s, count=1)
+          if n != 1:
+              raise SystemExit('calculator footer not found')
+          p.write_text(s)
+
+          # Joint-sand page: preserve the page and rankings, but remove overbroad claims.
+          p = Path('nocatee-paver-joint-sand.html')
+          s = p.read_text()
+          replacements = {
+              'Paver Joint Sand in Nocatee, FL | Polymeric vs Kiln-Dried | HydroSeal': 'Paver Joint Sand in Nocatee, FL | Kiln-Dried Joint Sand | HydroSeal',
+              'Paver Joint Sand in Nocatee, FL | Polymeric vs Kiln-Dried': 'Paver Joint Sand in Nocatee, FL | Kiln-Dried Joint Sand',
+              'Paver joint sand in Nocatee, FL. Why joints wash out here, polymeric sand vs kiln-dried joint sand in Florida conditions, re-sanding cost, and weed and ant treatment. Call 904.537.5000.': 'Paver joint sand in Nocatee, FL. Learn why joints wash out, how HydroSeal restores depleted joints with ASTM C144 kiln-dried sand, and how stabilization fits the sealing process.',
+              'Why paver joints wash out in Nocatee, the honest answer on polymeric sand in Florida, and what re-sanding actually costs.': 'Why paver joints wash out in Nocatee, how joint material is selected, and what proper re-sanding involves.',
+              'Why your joints keep emptying, the honest answer on polymeric sand in Florida, and what full-depth re-sanding actually involves. Included in every sealing job.': 'Why joints lose material, how HydroSeal restores depleted paver joints, and how joint stabilization fits a complete sealing project.',
+              'Three causes stack up here. Reclaimed irrigation water saturates the joints on a fixed schedule several times a week, so joints never fully dry out between cycles. Storm season from June through September moves large volumes of water across surfaces that all shed toward a street or a drain. And builder installs often left joints only partially filled, so there was less sand to lose in the first place. Once a joint is below about two thirds depth it stops interlocking and the loss accelerates.': 'Heavy rain, irrigation overspray, roof runoff, repeated cleaning and already-depleted joints can all move sand out of a paver system. When joint levels become visibly low, edge support and interlock are reduced and additional loss can accelerate. The correct repair depends on actual joint depth, drainage and paver movement.',
+              'Generally no, and the reason is installation conditions rather than the product itself. Polymeric sand performs well when the base is well drained, the joints are within the manufacturer\'s width range, the surface is clean and dry, and the weather allows a full cure. Nocatee frequently fails at least one of those, particularly on shaded screened pool decks with chronic damp. Polymeric is also not porous, which works against drainage on a surface that needs to shed water. We use Trident ASTM C144 kiln-dried joint sand compacted to full depth and stabilized with a joint-stabilizing sealer.': 'HydroSeal generally uses ASTM C144 kiln-dried joint sand with a compatible joint-stabilizing sealer. Polymeric sand can be appropriate in some paver systems when manufacturer requirements for joint dimensions, drainage, preparation and cure conditions are met. Material selection should be based on the actual paver system and site conditions rather than a blanket rule.',
+              'Joint sand replacement is included in the paver sealing price of $1.50 per square foot for concrete and brick pavers and $1.60 per square foot for travertine and natural stone. Re-sanding on its own without sealing is not a service we recommend, because loose sand in an unstabilized joint will wash out again within a season or two.': 'Joint-sand restoration is included where needed in the standard paver sealing scope. Published starting rates are $1.50 per square foot for concrete and brick pavers and $1.60 per square foot for travertine and natural stone. Final scope depends on joint depth, existing material, drainage, repairs and whether stabilization is appropriate.',
+              'We can, but it is usually a waste of money. Unstabilized sand in a joint is held in place by nothing but gravity and friction. In Nocatee, with irrigation cycles several times a week and a four-month storm season, that sand starts leaving almost immediately. The sealer is what locks the joint. Sand without stabilization is a temporary cosmetic fix.': 'Re-sanding without sealing can be appropriate in some maintenance situations, but loose joint material is generally more vulnerable to erosion from rain, runoff, irrigation and cleaning. HydroSeal evaluates whether joint stabilization should be part of the project rather than treating every surface the same.',
+              'It reduces both substantially. A joint packed to full depth and locked with a stabilizing sealer is difficult for seeds to germinate in and difficult for ants to excavate. For surfaces with a persistent problem we offer a pre-emergent pre-treatment applied before the new sand goes in. Nothing is permanent, but it typically moves maintenance from a monthly chore to a seasonal one.': 'Restoring depleted joints and stabilizing them can help reduce recurring weed and ant activity, but it does not eliminate either problem. Seeds, organic debris and insects can return over time, so future maintenance may still be needed.',
+              'To the full depth of the joint, which on a standard Florida paver install means most of the paver thickness, not a surface skim. Sand filled only in the top half looks correct on the day and offers almost no interlock, because the mechanical strength of a paver system comes from full-depth joint compaction transferring load between units.': 'Joint sand should be restored to the appropriate working depth for the specific paver system rather than applied as a thin surface skim. Joint dimensions, paver type, existing material and edge conditions should be inspected before deciding how much material is needed.',
+              'That is almost always polymeric sand that was activated with water while residue was still sitting on top of the pavers. Once it cures on the surface it is bonded there, and sealing over it locks in the rough, hazy texture permanently. Correcting it means stripping the sealer and mechanically removing the cured residue. It is one of the most common paver restoration repairs we are called out for.': 'Haze after sanding can come from polymeric-sand residue, efflorescence, cleaner residue, hard-water minerals or an existing sealer problem. The cause should be identified before adding more sealer because the correction can range from targeted cleaning to more involved coating restoration.'
+          }
+          for old, new in replacements.items():
+              s = s.replace(old, new)
+
+          # Soften unsupported local generalizations while keeping the Nocatee context.
+          s = re.sub(
+              r'<strong>Irrigation runs on a schedule, and rain doesn\'t\.</strong>[\s\S]*?</p>',
+              '<strong>Irrigation and runoff can move joint sand.</strong> Reclaimed-irrigation overspray, roof discharge, driveway slope and repeated wetting can erode low joints and edges over time. HydroSeal looks at sprinkler patterns, drainage paths and actual joint depth before deciding how much material needs to be restored.</p>',
+              s, count=1
+          )
+          s = re.sub(
+              r'<strong>Builder installs started underfilled\.</strong>[\s\S]*?</p>',
+              '<strong>New installations can settle after the first sanding.</strong> Some paver systems lose visible joint depth as the original sand settles into the joints or is displaced by early rain and cleaning. The existing depth should be measured rather than assuming every newer installation needs the same correction.</p>',
+              s, count=1
+          )
+          s = s.replace(
+              'The practical threshold: once a joint falls much below about two-thirds of its depth, interlock is effectively gone and the rate of loss accelerates. That is the point where re-sanding stops being maintenance and starts being a repair.',
+              'The practical trigger is visible depletion: when joints are noticeably low, edges begin losing support, sand movement increases or pavers start shifting, the joint system should be evaluated and restored to the appropriate working depth.'
+          )
+          p.write_text(s)
+
+          # Final assertions.
+          offenders = []
+          for p in Path('.').glob('*.html'):
+              text = p.read_text()
+              if any(dead in text for dead in DEAD):
+                  offenders.append(str(p))
+          if offenders:
+              raise SystemExit('retired Nocatee URLs remain in: ' + ', '.join(offenders))
+
+          for name in [p.name for p in Path('.').glob('*.html')]:
+              q = Path(name)
+              q.write_text('\n'.join(line.rstrip() for line in q.read_text().splitlines()) + '\n')
+          PY
+          git diff --check
+      - name: Commit cleanup
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add '*.html'
+          git diff --cached --check
+          git commit -m "Clean Nocatee dead links and joint-sand wording" || exit 0
+          git push
