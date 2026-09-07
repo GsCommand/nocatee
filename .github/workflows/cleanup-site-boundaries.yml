@@ -27,57 +27,50 @@ jobs:
           for p in Path('.').glob('*.html'):
               s = p.read_text()
 
-              # Remove the obsolete Pressure Washing dropdown anywhere it still points only
-              # to the retired Nocatee house/roof URLs.
               s = re.sub(
                   r'\s*<div class="nav-dropdown">\s*<button[^>]*>\s*Pressure Washing\s*</button>\s*<div class="nav-menu"[^>]*>[\s\S]*?(?:nocatee-house-washing|nocatee-roof-washing)[\s\S]*?</div>\s*</div>',
                   '', s, flags=re.I
               )
 
-              # Remove a known body cross-link sentence now that the house-washing URL is retired.
               s = re.sub(
                   r'\s*,?\s*and irrigation residue on exterior walls may also be addressed through\s*<a[^>]*href=["\']/nocatee-house-washing["\'][^>]*>[\s\S]*?</a>',
                   '', s, flags=re.I
               )
 
-              # Remove any remaining anchors to the retired URLs.
               s = re.sub(
                   r'<a\b[^>]*href=["\']/(?:nocatee-house-washing|nocatee-roof-washing)["\'][^>]*>[\s\S]*?</a>',
                   '', s, flags=re.I
               )
 
-              # Hard guarantee: no retired URL string survives in production HTML.
               for dead in DEAD:
                   s = s.replace(dead, '')
 
-              # Clean separators that can be stranded when an old footer link is removed.
               s = re.sub(r'(?:\s*&middot;\s*){2,}', ' &middot; ', s)
               s = re.sub(r'(<nav\b[^>]*>)\s*&middot;\s*', r'\1', s)
               s = re.sub(r'\s*&middot;\s*(</nav>)', r'\1', s)
-
               p.write_text(s)
 
-          # Calculator: make header/footer consistent with the live paver-only Nocatee site.
           p = Path('paver-sealing-cost-calculator.html')
           s = p.read_text()
-          footer = '''<footer class="site-footer">
-      <nav aria-label="Footer navigation">
-        <a href="/nocatee-driveway-paver-sealing">Driveway Paver Sealing</a> &middot;
-        <a href="/nocatee-pool-deck-paver-sealing">Pool Deck Sealing</a> &middot;
-        <a href="/nocatee-travertine-sealing">Travertine Sealing</a> &middot;
-        <a href="/nocatee-paver-joint-sand">Joint Sand</a> &middot;
-        <a href="/paver-sealing-cost-calculator">Cost Calculator</a> &middot;
-        <a href="/warranty">Warranty</a> &middot;
-        <a href="/privacy-policy">Privacy</a>
-      </nav>
-      <p>&copy; 2026 HydroSeal &middot; Nocatee Paver Sealing &middot; Serving Nocatee, Ponte Vedra &amp; St. Johns County, FL</p>
-    </footer>'''
+          footer = (
+              '<footer class="site-footer">\n'
+              '      <nav aria-label="Footer navigation">\n'
+              '        <a href="/nocatee-driveway-paver-sealing">Driveway Paver Sealing</a> &middot;\n'
+              '        <a href="/nocatee-pool-deck-paver-sealing">Pool Deck Sealing</a> &middot;\n'
+              '        <a href="/nocatee-travertine-sealing">Travertine Sealing</a> &middot;\n'
+              '        <a href="/nocatee-paver-joint-sand">Joint Sand</a> &middot;\n'
+              '        <a href="/paver-sealing-cost-calculator">Cost Calculator</a> &middot;\n'
+              '        <a href="/warranty">Warranty</a> &middot;\n'
+              '        <a href="/privacy-policy">Privacy</a>\n'
+              '      </nav>\n'
+              '      <p>&copy; 2026 HydroSeal &middot; Nocatee Paver Sealing &middot; Serving Nocatee, Ponte Vedra &amp; St. Johns County, FL</p>\n'
+              '    </footer>'
+          )
           s, n = re.subn(r'<footer class="site-footer">[\s\S]*?</footer>', footer, s, count=1)
           if n != 1:
               raise SystemExit('calculator footer not found')
           p.write_text(s)
 
-          # Joint-sand page: preserve the page and rankings, but remove overbroad claims.
           p = Path('nocatee-paver-joint-sand.html')
           s = p.read_text()
           replacements = {
@@ -97,7 +90,6 @@ jobs:
           for old, new in replacements.items():
               s = s.replace(old, new)
 
-          # Soften unsupported local generalizations while keeping the Nocatee context.
           s = re.sub(
               r'<strong>Irrigation runs on a schedule, and rain doesn\'t\.</strong>[\s\S]*?</p>',
               '<strong>Irrigation and runoff can move joint sand.</strong> Reclaimed-irrigation overspray, roof discharge, driveway slope and repeated wetting can erode low joints and edges over time. HydroSeal looks at sprinkler patterns, drainage paths and actual joint depth before deciding how much material needs to be restored.</p>',
@@ -114,17 +106,15 @@ jobs:
           )
           p.write_text(s)
 
-          # Final assertions.
           offenders = []
-          for p in Path('.').glob('*.html'):
-              text = p.read_text()
+          for q in Path('.').glob('*.html'):
+              text = q.read_text()
               if any(dead in text for dead in DEAD):
-                  offenders.append(str(p))
+                  offenders.append(str(q))
           if offenders:
               raise SystemExit('retired Nocatee URLs remain in: ' + ', '.join(offenders))
 
-          for name in [p.name for p in Path('.').glob('*.html')]:
-              q = Path(name)
+          for q in Path('.').glob('*.html'):
               q.write_text('\n'.join(line.rstrip() for line in q.read_text().splitlines()) + '\n')
           PY
           git diff --check
